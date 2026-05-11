@@ -75,5 +75,10 @@ function initFormHandler() {
 		saveRecipesToStorage(recipes);
 	});
 
-	// todo - clear button
+	const clearBtn = document.querySelector('button.danger');
+	clearBtn.addEventListener('click', () => {
+		localStorage.clear();
+		const main = document.querySelector('main');
+		main.innerHTML = '';
+	});
 }
