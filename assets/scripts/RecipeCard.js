@@ -42,11 +42,21 @@ class RecipeCard extends HTMLElement {
 				display: flex;
 			}
 
-			div.rating>img {
-				height: auto;
-				display: inline-block;
-				object-fit: scale-down;
-				width: 78px;
+			div.rating .stars {
+				background: linear-gradient(90deg, #f5a623 var(--pct), #d3d3d3 var(--pct));
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+				color: transparent;
+				font-size: 14px;
+				letter-spacing: 1px;
+				line-height: 1;
+			}
+
+			div.rating .num,
+			div.rating .count {
+				color: #70757A;
+				font-size: 12px;
 			}
 
 			article>img {
@@ -96,6 +106,11 @@ class RecipeCard extends HTMLElement {
 
 		const article = this.shadowRoot.querySelector('article');
 
+		const rating = Number(data.rating) || 0;
+		const num = Number(data.numRatings) || 0;
+		const pct = (rating / 5) * 100;
+		const count = num >= 1000 ? (num / 1000).toFixed(1) + 'K' : num;
+
 		article.innerHTML = `
 			<img src="${data.imgSrc}" alt="${data.imgAlt}">
 			<p class="title">
@@ -103,9 +118,9 @@ class RecipeCard extends HTMLElement {
 			</p>
 			<p class="organization">${data.organization}</p>
 			<div class="rating">
-				<span>${data.rating}</span>
-				<img src="/assets/images/icons/${Math.round(data.rating)}-star.svg" alt="${Math.round(data.rating)} stars">
-				<span>(${data.numRatings})</span>
+				<span class="num">${rating.toFixed(1)}</span>
+				<span class="stars" style="--pct: ${pct}%">★★★★★</span>
+				<span class="count">(${count})</span>
 			</div>
 			<time>${data.lengthTime}</time>
 			<p class="ingredients">${data.ingredients}</p>
