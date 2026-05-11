@@ -47,10 +47,7 @@ function addRecipesToDocument(recipes) {
  * @param {Array<Object>} recipes An array of recipes
  */
 function saveRecipesToStorage(recipes) {
-	// EXPLORE - START (All explore numbers start with B)
-	// B1. TODO - Complete the functionality as described in this function
-	//            header. It is possible in only a single line, but should
-	//            be no more than a few lines.
+	localStorage.setItem('recipes', JSON.stringify(recipes));
 }
 
 /**
@@ -62,7 +59,20 @@ function initFormHandler() {
 
 	form.addEventListener('submit', (e) => {
 		e.preventDefault();
-		// todo - actually save and append card
+
+		const formData = new FormData(form);
+		let recipeObject = {};
+		for (const [key, value] of formData.entries()) {
+			recipeObject[key] = value;
+		}
+
+		const card = document.createElement('recipe-card');
+		card.data = recipeObject;
+		document.querySelector('main').appendChild(card);
+
+		const recipes = getRecipesFromStorage();
+		recipes.push(recipeObject);
+		saveRecipesToStorage(recipes);
 	});
 
 	// todo - clear button
