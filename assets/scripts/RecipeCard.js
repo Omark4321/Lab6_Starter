@@ -94,8 +94,23 @@ class RecipeCard extends HTMLElement {
 	set data(data) {
 		if (!data) return;
 
-		// A6/A7 todo - fill in article
+		const article = this.shadowRoot.querySelector('article');
+
+		article.innerHTML = `
+			<img src="${data.imgSrc}" alt="${data.imgAlt}">
+			<p class="title">
+				<a href="${data.titleLnk}">${data.titleTxt}</a>
+			</p>
+			<p class="organization">${data.organization}</p>
+			<div class="rating">
+				<span>${data.rating}</span>
+				<img src="/assets/images/icons/${Math.round(data.rating)}-star.svg" alt="${Math.round(data.rating)} stars">
+				<span>(${data.numRatings})</span>
+			</div>
+			<time>${data.lengthTime}</time>
+			<p class="ingredients">${data.ingredients}</p>
+		`;
 	}
 }
 
-// A8 todo - register the element
+customElements.define('recipe-card', RecipeCard);
